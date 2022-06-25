@@ -1,4 +1,5 @@
 #include "02-semaphore.h"
+#include "02.problem.36.h"
 
 #include "googletest/googletest/include/gtest/gtest.h"
 
@@ -82,4 +83,28 @@ TEST(Semaphore, UpAndDown) {
   }
 
   ASSERT_TRUE(s.Value() == 0);
+}
+
+TEST(Restaurant, Work) {
+  Restaurant restaurant;
+  std::thread send([&restaurant](){
+    for (int i = 0; i < 100; i++) {
+      restaurant.PlaceAnOrder(std::to_string(i));
+    }
+  });
+  std::thread receive([&restaurant](){
+    for (int i = 0; i < 100; i++) {
+      Bag bag;
+      restaurant.TakeMeal(std::to_string(i), &bag);
+      ASSERT_TRUE(bag.customer == std::to_string(i));
+      //std::cout << "customer: " << bag.customer
+      //  << ", order_taker: " << bag.order_taker
+      //  << ", cooker: " << bag.cooker
+      //  << ", packaging_specialist: " << bag.packaging_specialist
+      //  << ", cashier: " << bag.cashier << std::endl;
+    }
+  });
+
+  send.join();
+  receive.join();
 }

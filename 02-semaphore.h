@@ -51,9 +51,6 @@ class Semaphore {
     // 先 Down 一次，把初始值消耗掉
     block.Down();
   }
-  ~Semaphore() {
-    std::cout << "value: " << value << std::endl;
-  }
 
   int64_t Value() const {
     return value;
