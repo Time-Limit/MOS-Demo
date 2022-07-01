@@ -1,4 +1,5 @@
 #include "02-semaphore.h"
+#include "02-philosopher-semaphore.h"
 #include "02.problem.36.h"
 
 #include "googletest/googletest/include/gtest/gtest.h"
@@ -107,4 +108,9 @@ TEST(Restaurant, Work) {
 
   send.join();
   receive.join();
+}
+
+TEST(Philosopher, Work) {
+  SemaphoreDinner dinner(10);
+  std::this_thread::sleep_for(std::chrono::seconds(100));
 }

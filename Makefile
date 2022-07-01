@@ -1,4 +1,4 @@
-.PHONY: install, 02-test
+.PHONY: install, 02_test
 
 install:
 	if [ ! -d "./googletest" ]; then \
@@ -10,7 +10,7 @@ install:
 			&& make; \
 	fi	
 
-02-test:
-	g++ -o 02-test 02-test.cc -I./ -I./googletest/googletest/include -L./googletest/build/lib -lgtest -lgtest_main -std=c++14 -g -O0 \
-	&& ./02-test \
-	&& rm ./02-test \
+02_test:
+	g++ -o 02_test 02_test.cc -I./ -I./googletest/googletest/include -L./googletest/build/lib -lgtest -lgtest_main -std=c++14 -g -O0 \
+	&& ./02_test \
+	&& rm ./02_test \
