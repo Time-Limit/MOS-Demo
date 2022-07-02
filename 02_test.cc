@@ -1,6 +1,7 @@
 #include "02-semaphore.h"
 #include "02-philosopher-semaphore.h"
 #include "02.problem.36.h"
+#include "02-monitor.h"
 
 #include "googletest/googletest/include/gtest/gtest.h"
 
@@ -111,6 +112,22 @@ TEST(Restaurant, Work) {
 }
 
 TEST(Philosopher, Work) {
-  SemaphoreDinner dinner(10);
-  std::this_thread::sleep_for(std::chrono::seconds(100));
+  SemaphoreDinner dinner(5);
+  std::this_thread::sleep_for(std::chrono::seconds(10));
+}
+
+TEST(Monitor, Work) {
+  class Example {
+    std::string value;
+   public:
+    Example(const std::string &str) : value(str) {}
+    void Output(const std::string &prefix) {
+      std::cout << prefix << value << std::endl;
+    }
+    size_t Size() const { return value.size(); }
+  };
+  
+  Monitor<Example> monitor("This is a sample!");
+  monitor.Execute(&Example::Output, "Hello! ");
+  std::cout << monitor.Execute(&Example::Size) << std::endl;
 }

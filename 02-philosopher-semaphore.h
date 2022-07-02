@@ -1,6 +1,13 @@
 #include "02-semaphore.h"
 #include "base.h"
 
+#include <thread>
+#include <iostream>
+#include <vector>
+#include <queue>
+#include <unordered_map>
+#include <sstream>
+
 class SemaphoreDinner {
   enum Status {
     THINKING = 0,
