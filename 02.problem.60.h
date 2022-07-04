@@ -1,3 +1,5 @@
+#pragma once
+
 #include "02-semaphore.h"
 
 class Bathroom {

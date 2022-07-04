@@ -4,6 +4,7 @@
 #include "02-monitor.h"
 #include "02.problem.59.h"
 #include "02.problem.60.h"
+#include "02.problem.61.h"
 
 #include "googletest/googletest/include/gtest/gtest.h"
 
@@ -178,4 +179,8 @@ TEST(Bathroom, Work) {
   for (auto &s : students) {
     s.join();
   }
+}
+
+TEST(StrictAlternation, Work) {
+  StrictAlternation(10, 10, [](uint32_t id) { std::cout << "It's turn to thread " << id << std::endl; });
 }
