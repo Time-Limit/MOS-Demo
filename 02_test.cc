@@ -3,6 +3,7 @@
 #include "02.problem.36.h"
 #include "02-monitor.h"
 #include "02.problem.59.h"
+#include "02.problem.60.h"
 
 #include "googletest/googletest/include/gtest/gtest.h"
 
@@ -142,4 +143,39 @@ TEST(MonitorDinner, Work) {
     p[i]->sit_down(&monitor_dinner, i);
   }
   std::this_thread::sleep_for(std::chrono::seconds(10));
+}
+
+TEST(Bathroom, Work) {
+  Bathroom bathroom;
+
+  std::vector<std::thread> students;
+  std::atomic<int32_t> woman_count(0), man_count(0);
+
+  for (int i = 0; i < 10; i++) {
+    students.emplace_back([&woman_count, &man_count, is_woman = bool(i&1), &bathroom](){
+      for (int j = 0; j < 20; j++) {
+        if (is_woman) {
+          bathroom.WomanWantsToEnter();
+          woman_count++;
+          ASSERT_TRUE(man_count == 0);
+        } else {
+          bathroom.ManWantsToEnter();
+          man_count++;
+          ASSERT_TRUE(woman_count == 0);
+        }
+        std::this_thread::sleep_for(std::chrono::milliseconds(5));
+        if (is_woman) {
+          bathroom.WomanLeaves();
+          woman_count--;
+        } else {
+          bathroom.ManLeaves();
+          man_count--;
+        }
+      }
+    });
+  }
+
+  for (auto &s : students) {
+    s.join();
+  }
 }
