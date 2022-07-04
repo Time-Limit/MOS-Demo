@@ -1,3 +1,5 @@
+#pragma once
+// 思路来自于「图 2-47 哲学家就餐问题的一个解法(P95)」 
 #include "02-semaphore.h"
 #include "base.h"
 

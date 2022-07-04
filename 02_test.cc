@@ -2,6 +2,7 @@
 #include "02-philosopher-semaphore.h"
 #include "02.problem.36.h"
 #include "02-monitor.h"
+#include "02.problem.59.h"
 
 #include "googletest/googletest/include/gtest/gtest.h"
 
@@ -130,4 +131,15 @@ TEST(Monitor, Work) {
   Monitor<Example> monitor("This is a sample!");
   monitor.Execute(&Example::Output, "Hello! ");
   std::cout << monitor.Execute(&Example::Size) << std::endl;
+}
+
+TEST(MonitorDinner, Work) {
+  const auto n = 5;
+  MonitorDinner monitor_dinner(n);
+  std::vector<std::unique_ptr<MonitorDinnerClass::Philosopher>> p;
+  for (int i = 0; i < n; i++) {
+    p.emplace_back(new MonitorDinnerClass::Philosopher());
+    p[i]->sit_down(&monitor_dinner, i);
+  }
+  std::this_thread::sleep_for(std::chrono::seconds(10));
 }

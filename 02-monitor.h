@@ -15,10 +15,11 @@ class Monitor {
   // 任一时刻，最多只有一个线程在执行成员函数
   template<typename F, typename... Args>
   decltype(auto) Execute(F f, Args&&... args) {
-    struct {
-      Keeper(BinarySemaphore *bs) : bs_(bs) { bs.Down(); }
+    struct Keeper {
+      BinarySemaphore &bs_;
+      Keeper(BinarySemaphore &bs) : bs_(bs) { bs.Down(); }
       ~Keeper() { bs_.Up(); }
-    } keeper(&mutex);
+    } keeper(mutex);
     return (object.*f)(std::forward<Args>(args)...);
   }
 };
